@@ -12,10 +12,11 @@ jobs:
     steps:
       - id: set
         run: |
-          echo "matrix<<EOF" >> $GITHUB_OUTPUT
-          cat libraries.json >> $GITHUB_OUTPUT
-          echo "EOF"         >> $GITHUB_OUTPUT
-
+          {
+            echo "matrix<<EOF"
+            cat librairies.json
+            echo "EOF"        
+          } >> $GITHUB_OUTPUT
   install-library:
     needs: generate-matrix
     runs-on: ubuntu-latest
