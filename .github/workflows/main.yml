@@ -8,8 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set.outputs.matrix }}
-
     steps:
+      - name: checking out lambdapi repo
+        uses: actions/checkout@v6
       - id: set
         run: |
           {
@@ -25,7 +26,7 @@ jobs:
       matrix: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
 
     steps:
-      - name: checking out lambdapi repo
+      - name: checking out repo
         uses: actions/checkout@v6
       - name: setting up opam
         uses: ocaml/setup-ocaml@v3
