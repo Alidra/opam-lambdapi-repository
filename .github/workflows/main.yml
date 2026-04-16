@@ -1,21 +1,31 @@
+name: Dynamic Matrix Example
+
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
   push:
-    paths:
-      - '**/*'
-  workflow_dispatch:
 
 jobs:
-  checkout_out:
-    strategy:
-      fail-fast: false
+  generate-matrix:
     runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set.outputs.matrix }}
+
     steps:
-      - name: checking out opam lambdapi repo
-        uses: actions/checkout@v6
-      - name: generate secondary pipeline
-        run: make generate_secondary_pipeline
-  call-secondary:
-    needs: checkout_out
-    uses: ./.github/workflows/secondary.yml
+      - id: set
+        run: |
+          echo 'matrix={"include":[
+            {"name":"job1","value":"A"},
+            {"name":"job2","value":"B"}
+          ]}' >> $GITHUB_OUTPUT
+
+  use-matrix:
+    needs: generate-matrix
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
+
+    steps:
+      - name: Print values
+        run: |
+          echo "Name = ${{ matrix.name }}"
+          echo "Value = ${{ matrix.value }}"
