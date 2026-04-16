@@ -3,7 +3,7 @@ on:
     types: [opened, synchronize, reopened]
   push:
     paths:
-      - '**/*.*'
+      - '**/*'
   workflow_dispatch:
 
 jobs:
