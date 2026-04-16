@@ -7,7 +7,7 @@ jobs:
       fail-fast: false
       matrix:
         ocaml-version: [5.4.1]
-        libraries: [packages/lambdapi-stdlib/lambdapi-stdlib.1.0.0/opam]
+        libraries: [packages/lambdapi-stdlib/lambdapi-stdlib.1.0.0/]
         paths: [<___>]
     runs-on: ubuntu-latest
     steps:
@@ -16,4 +16,4 @@ jobs:
         with:
           ocaml-compiler: ${{ matrix.ocaml-version }}
       - name: install_library
-        run: opam install ${{matrix.libraries}}
+        run: opam install -y ${{matrix.libraries}}
