@@ -11,9 +11,9 @@ jobs:
         paths: [<___>]
     runs-on: ubuntu-latest
     steps:
-      - name: setting up opam
-        uses: ocaml/setup-ocaml@v3
-        with:
-          ocaml-compiler: ${{ matrix.ocaml-version }}
+      # - name: setting up opam
+      #   uses: ocaml/setup-ocaml@v3
+      #   with:
+      #     ocaml-compiler: ${{ matrix.ocaml-version }}
       - name: install_library
-        run: pwd && ls && ls ${{matrix.libraries}} && opam install -y ${{matrix.libraries}}
+        run: ls -la
