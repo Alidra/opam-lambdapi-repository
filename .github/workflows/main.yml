@@ -1,0 +1,21 @@
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    paths:
+      - '**/*.*'
+  workflow_dispatch:
+
+jobs:
+  checkout_out:
+    strategy:
+      fail-fast: false
+    runs-on: ubuntu-latest
+    steps:
+      - name: checking out opam lambdapi repo
+        uses: actions/checkout@v6
+      - name: generate secondary pipeline
+        run: make generate_secondary_pipeline
+  call-secondary:
+    needs: checkout_out
+    uses: ./.github/workflows/secondary.yml

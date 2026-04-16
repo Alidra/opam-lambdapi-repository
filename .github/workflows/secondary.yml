@@ -1,0 +1,18 @@
+on:
+  workflow_call:
+
+jobs:
+  run_library:
+    strategy:
+      fail-fast: false
+      matrix:
+        ocaml-version: [5.4.1]
+        libraries: [packages/lambdapi-stdlib/lambdapi-stdlib.1.0.0/opam]
+    runs-on: ubuntu-latest
+    steps:
+      - name: setting up opam
+        uses: ocaml/setup-ocaml@v3
+        with:
+          ocaml-compiler: ${{ matrix.ocaml-version }}
+      - name: install_library
+        run: opam install ${{matrix.libraries}}
