@@ -16,4 +16,4 @@ jobs:
         with:
           ocaml-compiler: ${{ matrix.ocaml-version }}
       - name: install_library
-        run: opam install -y ${{matrix.libraries}}
+        run: pwd && ls ${{matrix.libraries}} && opam install -y ${{matrix.libraries}}
