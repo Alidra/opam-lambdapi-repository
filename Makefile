@@ -1,8 +1,5 @@
 FINAL_DIRS := $(shell find packages -type d ! -exec test -d "{}/"* \; -print)
+FINAL_DIRS := $(shell echo "$(FINAL_DIRS)" | tr ' ' ',')
 
-generate_pipeline: pipeline_skeleton.yml
-	@for doss in $(FINAL_DIRS); do \
-		name=$$(basename $$doss); \
-# 		sed "s/<___>/$$name/g" template.yml > $$doss/secondary_pipeline.yml; \
-		echo "Generated $$doss/secondary_pipeline.yml"; \
-	done
+generate_secondary_pipeline: pipeline_skeleton.yml
+	sed -i "s/<___>/$$FINAL_DIRS/g" .github/workflows/secondary.yml

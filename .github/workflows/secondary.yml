@@ -8,6 +8,7 @@ jobs:
       matrix:
         ocaml-version: [5.4.1]
         libraries: [packages/lambdapi-stdlib/lambdapi-stdlib.1.0.0/opam]
+        paths: [<___>]
     runs-on: ubuntu-latest
     steps:
       - name: setting up opam
