@@ -12,10 +12,7 @@ jobs:
     steps:
       - id: set
         run: |
-          echo 'matrix={"include":[
-            {"name":"job1","value":"A"},
-            {"name":"job2","value":"B"}
-          ]}' >> $GITHUB_OUTPUT
+          echo 'matrix={"include":[{"name":"job1","value":"A"},{"name":"job2","value":"B"}]}' >> $GITHUB_OUTPUT
 
   use-matrix:
     needs: generate-matrix
