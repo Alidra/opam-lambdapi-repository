@@ -12,7 +12,9 @@ jobs:
     steps:
       - id: set
         run: |
-          echo 'matrix={"include":[{"library":"packages/lambdapi-stdlib/lambdapi-stdlib.1.3.1"},{"library":"packages/lambdapi-stdlib/lambdapi-stdlib.1.3.0"}]}' >> $GITHUB_OUTPUT
+          echo "matrix<<EOF" >> $GITHUB_OUTPUT
+          cat libraries.json >> $GITHUB_OUTPUT
+          echo "EOF"         >> $GITHUB_OUTPUT
 
   install-library:
     needs: generate-matrix
