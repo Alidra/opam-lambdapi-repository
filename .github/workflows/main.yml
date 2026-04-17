@@ -1,5 +1,3 @@
-name: Dynamic Matrix Example
-
 on:
   push:
 
@@ -8,32 +6,30 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set.outputs.matrix }}
+
     steps:
-      - name: checking out lambdapi repo
-        uses: actions/checkout@v6
+      - uses: actions/checkout@v4
       - id: set
         run: |
-          {
-            echo "matrix<<EOF"
-            cat librairies.json
-            echo "EOF"        
-          } >> $GITHUB_OUTPUT
+          files=$(find packages -type d ! -exec test -d "{}/"* \; -print)
+
+          json=$(printf '%s\n' "$files" | jq -R . | jq -s '{include: map({lib: .})}')
+
+          echo "matrix=$json" >> $GITHUB_OUTPUT
+  
+
   install-library:
     needs: generate-matrix
     runs-on: ubuntu-latest
 
     strategy:
+      fail-fast: false
       matrix: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
 
     steps:
-      - name: checking out repo
-        uses: actions/checkout@v6
-      - name: setting up opam
-        uses: ocaml/setup-ocaml@v3
-        with:
-          ocaml-compiler: 5.3.0
+      - uses: actions/checkout@v4
 
-      - name: install-library
+      - name: Process file
         run: |
-          opam install -y ${{matrix.library}}
-        
+          echo "Processing ${{ matrix.file }}"
+          cat "${{ matrix.file }}"
