@@ -11,7 +11,9 @@ jobs:
       - uses: actions/checkout@v4
       - id: set
         run: |
-          files=$(find packages -type d ! -exec test -d "{}/"* \; -print)  
+          files=$(find packages -type d ! -exec test -d "{}/"* \; -print)
+          echo "matrix=$files" >> $GITHUB_OUTPUT
+  
 
   install-library:
     needs: generate-matrix
