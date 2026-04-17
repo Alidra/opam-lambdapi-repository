@@ -31,5 +31,5 @@ jobs:
 
       - name: Process file
         run: |
-          echo "Processing ${{ matrix.file }}"
-          cat "${{ matrix.file }}"
+          echo "Processing ${{ matrix.lib }}"
+          ls "${{ matrix.file }}"
