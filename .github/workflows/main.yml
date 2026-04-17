@@ -31,7 +31,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Process file
+      - name: setting up opam
+        uses: ocaml/setup-ocaml@v3
+        with:
+          ocaml-compiler: 5.3.0
+      - name: install library ${{ matrix.lib }} 
         run: |
-          echo "Processing ${{ matrix.lib }}"
-          ls -l "${{ matrix.lib }}"/opam
+          echo "installing ${{ matrix.lib }}"
+          opam install -y "${{ matrix.lib }}"
