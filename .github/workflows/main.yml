@@ -13,9 +13,9 @@ jobs:
         run: |
           files=$(find packages -type d ! -exec test -d "{}/"* \; -print)
           files="hello"
-          # json=$(printf '%s' "$files" | jq -R . | jq -s '{include: map({lib: .})}')
+          json=$(printf '%s' "$files" | jq -R . | jq -s '{include: map({lib: .})}')
 
-          # echo "matrix=$json" >> $GITHUB_OUTPUT
+          echo "matrix=$json" >> $GITHUB_OUTPUT
   
 
   install-library:
