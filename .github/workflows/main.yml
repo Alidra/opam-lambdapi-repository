@@ -15,7 +15,7 @@ jobs:
       - id: set
         run: |
           files=$(find packages -type f -name "opam" -exec dirname {} \;)
-          json=$(printf '%s' "$files" | jq -R . | jq -s '{include: map({lib: ., ocaml_version: \"${{matrix.ocaml_version}}\"})}')
+          json=$(printf '%s' "$files" | jq -R . | jq -s '{include: map({lib: ., ocaml_version: "${{matrix.ocaml_version}}"})}')
           {
             echo "matrix<<EOF"
             echo "$json"
