@@ -12,7 +12,10 @@ jobs:
       - id: set
         run: |
           files=$(find packages -type d ! -exec test -d "{}/"* \; -print)
-          echo "matrix={include:[lib : hello]}" >> $GITHUB_OUTPUT
+          files="hello"
+          # json=$(printf '%s' "$files" | jq -R . | jq -s '{include: map({lib: .})}')
+
+          # echo "matrix=$json" >> $GITHUB_OUTPUT
   
 
   install-library:
