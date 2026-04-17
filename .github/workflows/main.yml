@@ -13,7 +13,7 @@ jobs:
         run: |
           files=$(find packages -type d ! -exec test -d "{}/"* \; -print)
 
-          echo 'matrix={"include":[{"lib":"hello"}]}' >> $GITHUB_OUTPUT
+          echo 'matrix={"include":[{"lib": "hello"}]}' >> $GITHUB_OUTPUT
   
 
   install-library:
