@@ -11,12 +11,7 @@ jobs:
       - uses: actions/checkout@v4
       - id: set
         run: |
-          files=$(find packages -type d ! -exec test -d "{}/"* \; -print)
-
-          json=$(printf '%s\n' "$files" | jq -R . | jq -s '{include: map({lib: .})}')
-
-          echo "matrix=$json" >> $GITHUB_OUTPUT
-  
+          files=$(find packages -type d ! -exec test -d "{}/"* \; -print)  
 
   install-library:
     needs: generate-matrix
