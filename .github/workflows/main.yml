@@ -11,9 +11,8 @@ jobs:
       - uses: actions/checkout@v4
       - id: set
         run: |
-          files=$(find packages -type d ! -exec test -d "{}/"* \; -print)
+          files=$(find packages -type f -name "opam" -exec dirname {} \;)
           json=$(printf '%s' "$files" | jq -R . | jq -s '{include: map({lib: .})}')
-
           {
             echo "matrix<<EOF"
             echo "$json"
@@ -35,4 +34,4 @@ jobs:
       - name: Process file
         run: |
           echo "Processing ${{ matrix.lib }}"
-          ls "${{ matrix.file }}"
+          ls -l "${{ matrix.lib }}"/opam
