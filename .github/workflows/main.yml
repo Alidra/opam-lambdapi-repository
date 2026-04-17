@@ -4,6 +4,9 @@ on:
 jobs:
   generate-matrix:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ocaml_version: [5.4.1]
     outputs:
       matrix: ${{ steps.set.outputs.matrix }}
 
@@ -12,7 +15,7 @@ jobs:
       - id: set
         run: |
           files=$(find packages -type f -name "opam" -exec dirname {} \;)
-          json=$(printf '%s' "$files" | jq -R . | jq -s '{include: map({lib: ., ocaml_version: "5.3.0"})}')
+          json=$(printf '%s' "$files" | jq -R . | jq -s '{include: map({lib: ., ocaml_version: ${{matrix.ocaml_version}}})}')
           {
             echo "matrix<<EOF"
             echo "$json"
