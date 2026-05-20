@@ -19,51 +19,45 @@ jobs:
         with:
           files: |
             packages/**/opam
-      - name: Display changed files
-        id: set
-        run: |
-          echo "Fichiers modifiés :"
-          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do   
-            echo "$file"
-          done
+      # - name: Display changed files
+      #   id: set
+      #   run: |
+      #     echo "Fichiers modifiés :"
+      #     for file in ${{ steps.changed-files.outputs.all_changed_files }}; do   
+      #       echo "$file"
+      #     done
           
-          modifiedPkgs=$(
-          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-            pkg=$(basename "$(dirname $file)")
-            echo $pkg
-          done
-          )
+      #     modifiedPkgs=$(
+      #     for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+      #       pkg=$(basename "$(dirname $file)")
+      #       echo $pkg
+      #     done
+      #     )
 
-          for file in $modifiedPkgs; do
-            echo  pkg $file has been modified
-          done
+      #     for file in $modifiedPkgs; do
+      #       echo  pkg $file has been modified
+      #     done
 
-          json=$(printf '%s' "$modifiedPkgs" | jq -R . | jq -s '{include: map({ bin: ., has_items: true})}')
-          # json=$(printf '%s' "$modifiedPkgs" | jq -R . | jq -s '{include: map({ bin: .}), has_items: true}')
-          {
-            echo "matrix<<EOF"
-            echo "$json"
-            echo "EOF"
-          } >> $GITHUB_OUTPUT
-  another_job:
+      #     json=$(printf '%s' "$modifiedPkgs" | jq -R . | jq -s '{include: map({ bin: ., has_items: true})}')
+      #     # json=$(printf '%s' "$modifiedPkgs" | jq -R . | jq -s '{include: map({ bin: .}), has_items: true}')
+      #     {
+      #       echo "matrix<<EOF"
+      #       echo "$json"
+      #       echo "EOF"
+      #     } >> $GITHUB_OUTPUT
+
+  install-libraires:
     needs: get-changed-files
+    # if: ${{needs.get-changed-files.outputs.matrix.has_items}} == 'true'
     runs-on: ubuntu-lates
+    strategy:
+      fail-fast: false
+      # matrix: ${{ fromJson(needs.get-changed-files.outputs.matrix) }}
     steps:
-      - name: print
-        run: pwd
-
-  # install-libraires:
-  #   needs: get-changed-files
-  #   # if: ${{needs.get-changed-files.outputs.matrix.has_items}} == 'true'
-  #   runs-on: ubuntu-lates
-  #   strategy:
-  #     fail-fast: false
-  #     matrix: ${{ fromJson(needs.get-changed-files.outputs.matrix) }}
-  #   steps:
-  #     - name: check has_items
-  #       run: |
-  #         echo ${{needs.get-changed-files.outputs.matrix.has_items}}
-      # - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      # - name: check has_items
+      #   run: |
+      #     echo ${{needs.get-changed-files.outputs.matrix.has_items}}
       # - name: setting up opam
       #   uses: ocaml/setup-ocaml@v3
       #   with:
